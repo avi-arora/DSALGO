@@ -14,8 +14,14 @@ class Vertex:
     def getVertexLabel(self):
         return self.label
 
-    def visited(self):
+    def visit(self):
         self.visited = True
+    
+    def isVisited(self):
+        return self.visited
+
+    def getLabel(self):
+        return self.label
     
 class Graph:
     def __init__(self):
@@ -60,6 +66,29 @@ class Graph:
             print(v)
             print(self.graph[v].getConnections())
 
+def SampleGraph_1():
+    G = Graph()
+    G.addVertex('a')
+    G.addVertex('b')
+    G.addVertex('c')
+    G.addVertex('d')
+    G.addVertex('e')
+    G.addVertex('f')
+    G.addVertex('g')
+    G.addVertex('h')
+    
+    G.addEdge('a','b')
+    G.addEdge('b','c')
+    G.addEdge('c','d')
+    G.addEdge('c','e')
+    G.addEdge('f','e')
+    G.addEdge('e','g')
+    G.addEdge('e','h')
+    G.addEdge('b','h')
+    
+    return G
+    
+
 if __name__ == '__main__':
     G = Graph()
     G.addVertex('a')
@@ -69,6 +98,8 @@ if __name__ == '__main__':
     G.addEdge('a','c')
     G.printGraph()
     print(G.getEdges())
+
+
 
         
 
