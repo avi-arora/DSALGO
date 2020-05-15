@@ -2,6 +2,8 @@ class Vertex:
     def __init__(self, label):
         self.label, self.visited = label, False
         self.neighbors = []
+        #stores pre and post visit values
+        self.pre, self.post = 0, 0
     
     #to add a neighbor
     def addNeighbor(self, neighbor):
@@ -17,6 +19,18 @@ class Vertex:
     def visit(self):
         self.visited = True
     
+    def preVisit(self, value):
+        self.pre = value
+    
+    def postVisit(self, value):
+        self.post = value
+
+    def getPre(self):
+        return self.pre
+    
+    def getPost(self):
+        return self.post
+    
     def isVisited(self):
         return self.visited
 
@@ -27,6 +41,9 @@ class Graph:
     def __init__(self):
         self.graph = {}
     
+    def __getitem__(self,label):
+        return self.graph[label]
+    
     def totalVertices(self):
         return len(self.graph.keys())
     
@@ -35,6 +52,9 @@ class Graph:
     
     def getVertices(self):
         return self.graph.keys()
+    
+    def getVertex(self,label):
+        return self.graph[label]
 
     def addEdge(self, fromLabel, toLabel,isDirected=False):
         """ This method also consider the edge cases

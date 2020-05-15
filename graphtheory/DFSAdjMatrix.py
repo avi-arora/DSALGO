@@ -21,12 +21,12 @@ def DFSAdjList(G: Graph):
             vertex.visit()
             path.append(vertex.getLabel())
         for neighbor in vertex.getConnections():
-            if not G.graph[neighbor].isVisited():
-                DFSUtility(G.graph[neighbor],path)
+            if not G[neighbor].isVisited():
+                DFSUtility(G[neighbor],path)
     #list to store label in traversal order
     dfsPath = []
     for vertex in G.getVertices():
-        DFSUtility(G.graph[vertex], dfsPath)
+        DFSUtility(G[vertex], dfsPath)
 
     return dfsPath
 
