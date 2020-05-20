@@ -1,3 +1,5 @@
+import copy
+
 class Vertex:
     def __init__(self, label):
         self.label, self.visited = label, False
@@ -106,6 +108,12 @@ class Graph:
         # handle undirected graph case
         if not isDirected:
             self.graph[toLabel].addNeighbor(fromLabel)
+    
+    def removeEdge(self, fromLabel, toLabel, isDirected=False):
+        if fromLabel in self.getVertices() and toLabel in self.getVertices():
+            self.graph[fromLabel].removeNeighbor(toLabel)
+            if not isDirected:
+                self.graph[toLabel].removeNeighbor(fromLabel)
 
     def getEdges(self):
         edges = []
@@ -116,10 +124,34 @@ class Graph:
             edges.append(individual)
         return edges
 
+
+    def transpose(self):
+        """
+        Returns a transpose (reverse) graph
+        TimeComplexity: O(V+E)
+        SpaceComplexity:
+        """
+        #makes a copy of graph
+        G = Graph()
+        for label, vertex in self.graph.items():
+            for v in vertex.getConnections():
+                G.addEdge(v,label,True)
+        return G
+
+    def Reverse(self):
+        """
+        Modifies the current graph and transpose (reverse) it. 
+        TimeComplexity: 
+        SpaceComplexity:
+        """
+        pass
+
+
     def printGraph(self):
-        for v in self.getVertices():
-            print(v)
-            print(self.graph[v].getConnections())
+        print("<<Graph>> ")
+        for label, vertex in self.graph.items():
+            print(f"Vertex: {label} Connections: {vertex.getConnections()}")
+
 
 
 def SampleGraph_1():
@@ -150,7 +182,8 @@ if __name__ == '__main__':
     G.addVertex('a')
     G.addVertex('b')
     G.addVertex('c')
-    G.addEdge('a', 'b')
-    G.addEdge('a', 'c')
+    G.addEdge('a', 'b', True)
+    G.addEdge('a', 'c', True)
+    S = G.transpose()
     G.printGraph()
-    print(G.getEdges())
+    S.printGraph()
