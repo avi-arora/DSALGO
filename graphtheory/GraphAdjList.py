@@ -4,10 +4,8 @@ class Vertex:
     def __init__(self, label):
         self.label, self.visited = label, False
         self.neighbors = []
-        # stores pre and post visit values
         self.pre, self.post = 0, 0
 
-    # to add a neighbor
     def addNeighbor(self, neighbor):
         if neighbor not in self.neighbors:
             self.neighbors.append(neighbor)
@@ -64,6 +62,7 @@ class Graph:
         if label in self.graph:
             # delete from main graph
             self.graph.pop(label)
+
             # delete all neighbors
             for _, vertex in self.graph.items():
                 vertex.removeNeighbor(label)
@@ -146,11 +145,72 @@ class Graph:
         """
         pass
 
+    def computePreAndPostVisit(self):
+        """
+        Compute the Pre and Post visit of the graph.
+        Uses DFS 
+        Time Complexity: O(V+E)
+        Space Complexity: O(1)
+        """
+        counter = 0
+        def explore(V: Vertex):
+            if not V.isVisited():
+                V.preVisit(counter)
+                V.visit()
+                for nbr in V.getConnections():
+                    if not G[nbr].isVisited():
+                        explore(G[nbr])
+                V.postVisit(counter)
+
+        for vertex in self.graph:
+            if not G[vertex].isVisited():
+                explore(G[vertex])
+
+    def postVisit(self):
+        """
+        Returns a list of label sorted in assending order or their post visit numbers 
+        TimeComplexity: 
+        SpaceComplexity:
+        """
+        pass
+
+    def reversePostVisit(self):
+        """
+        Returns a list of labels sorted in decreasing order of their post visit numbers 
+        TimeComplexity: 
+        SpaceComplexity:
+        Note: uses copy of graph G. as we don't want visit of original graph to be tampered.
+        alternative approach would be to use visited list instead of object level storage for visit
+        """
+        G = copy.deepcopy(self)
+        postVisits = []
+
+        def explore(V: Vertex):
+            if not V.isVisited():
+                V.visit()
+                for nbr in V.getConnections():
+                    if not G[nbr].isVisited():
+                        explore(G[nbr])
+                postVisits.append(V)
+        for vertex in G.getVertices():
+            if not G[vertex].isVisited():
+                explore(G[vertex])
+
+        return postVisits[::-1]
+
+
+
 
     def printGraph(self):
         print("<<Graph>> ")
         for label, vertex in self.graph.items():
             print(f"Vertex: {label} Connections: {vertex.getConnections()}")
+
+    def visualize(self):
+        """
+        Print a Visualization of a graph
+        """
+        pass
 
 
 

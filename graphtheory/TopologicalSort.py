@@ -51,6 +51,7 @@ def TopologicalSortLinear(G: Graph):
         #remove the zero vertex from the graph
         G.removeVertex(zeroVertex)
         #re-calculate the InDegree of vertex and enqueue the one with 0 InDegree
+        #condition vertex not in queue is important without it algorithm is ambiguous
         for vertex in G.getVertices():
             if G.getInDegree(vertex) == 0 and vertex not in queue:
                 queue.append(vertex)
