@@ -5,6 +5,7 @@ class Vertex:
         self.label, self.visited = label, False
         self.neighbors = []
         self.pre, self.post = 0, 0
+        self.distance = float("-inf")
 
     def addNeighbor(self, neighbor):
         if neighbor not in self.neighbors:
@@ -43,6 +44,12 @@ class Vertex:
 
     def getLabel(self):
         return self.label
+    
+    def setDistance(self, dist):
+        self.distance = dist
+    
+    def getDistance(self):
+        return self.distance
 
 
 class Graph:
