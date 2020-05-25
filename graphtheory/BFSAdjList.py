@@ -8,7 +8,7 @@ def BFSWithoutDistance(G: Graph):
     """
     visited, queue = [], []
     queue.append(G.getVertex(list(G.getVertices())[0]))
-    while queue: 
+    while queue:
         elem = queue.pop(0)
         if not elem.isVisited():
             elem.visit()
@@ -16,54 +16,59 @@ def BFSWithoutDistance(G: Graph):
             for nbr in elem.getConnections():
                 if not G[nbr].isVisited():
                     queue.append(G[nbr])
-    
+
     return visited
 
 def BFSWithDistance(G: Graph, srcVertex: Vertex):
     """
     Returns a list of vertices (labels) traverse in BFS Order
-    Also computes the distance between the source vertices to the other vertices 
+    Also computes the distance between the source vertices to the other vertices
     TimeComplexity: O(V+E)
     SpaceComplexity: ??
     """
     queue, visited = [], []
     srcVertex.distance = 0
-    srcVertex.visit()
     queue.append(srcVertex)
 
     while queue:
         v = queue.pop(0)
-        visited.append(v.getLabel())
-        for nbr in v.getConnections():
-            if not G[nbr].isVisited():
-                G[nbr].visit()
-                G[nbr].setDistance(v.getDistance() + 1)
-                queue.append(G[nbr])
+        if not v.isVisited():
+            #very common mistake to use v.visit instead of g[v].visit, 
+            #while putting data into queue, it copy not set reference. 
+            G[v.getLabel()].visit()
+            visited.append(v.getLabel())
+            for nbr in v.getConnections():
+                if not G[nbr].isVisited():
+                    queue.append(G[nbr])
+                    G[nbr].setDistance(v.getDistance() + 1)
     
     return visited
 
 
 
-def main():
-    totalVertex, totalEdges = map(int, input().split(" "))
+def sampleGraph():
     G = Graph()
-    #fill vertices 
-    for v in range(totalVertex):
-        G.addVertex(v+1)
-    
-    #take input
-    for _ in range(totalEdges):
-        v, u = map(int, input().split(" "))
-        G.addEdge(v,u)
-    
-    startingVertex = G[list(G.getVertices())[0]]
-    print(BFSWithDistance(G, G[startingVertex])
+    G.addVertex("A")
+    G.addVertex("B")
+    G.addVertex("C")
+    G.addVertex("D")
+    G.addVertex("E")
+    G.addVertex("F")
+    G.addVertex("G")
+    G.addVertex("H") 
+
+    G.addEdge("A","B")
+    G.addEdge("B","H")
+    G.addEdge("B","C")
+    G.addEdge("C","E")
+    G.addEdge("C","D")
+    G.addEdge("E","G")
+    G.addEdge("E","F")
+    G.addEdge("E","H")
+
+    return G
 
 
 if __name__ == "__main__":
-    main()
-    
-    
-
-
+    print(BFSWithDistance(sampleGraph(),sampleGraph().getVertex('A')))
     
