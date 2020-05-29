@@ -6,6 +6,8 @@ class Vertex:
         self.neighbors = []
         self.pre, self.post = 0, 0
         self.distance = float("-inf")
+        self.previous = None
+        self.color = None
 
     def addNeighbor(self, neighbor):
         if neighbor not in self.neighbors:
@@ -50,6 +52,12 @@ class Vertex:
     
     def getDistance(self):
         return self.distance
+    
+    def getColor(self):
+        return self.color
+
+    def setColor(self, color):
+        self.color = color
 
 
 class Graph:
