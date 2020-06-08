@@ -6,7 +6,8 @@ class Vertex:
         self.neighbors = []
         self.pre, self.post = 0, 0
         self.distance = float("-inf")
-        self.previous = None
+        #used to compute shortest path tree or BFS Tree
+        self.parent = None
         self.color = None
 
     def addNeighbor(self, neighbor):
@@ -58,6 +59,13 @@ class Vertex:
 
     def setColor(self, color):
         self.color = color
+    
+    def getParent(self):
+        return self.parent
+    
+    def setParent(self, label):
+        self.parent = label
+    
 
 
 class Graph:

@@ -1,5 +1,16 @@
 from GraphAdjList import Graph, Vertex
 
+def GetBipartiteSets(G: Graph, startingVertex: Vertex = None):
+    """
+    Returns list of list of two set of bipartite graph. 
+    if not bipartite return empty listd
+    TimeComplexity: O(V+E)
+    SpaceComplexity: ??
+    """
+    pass
+
+
+
 def isBipartite(G: Graph, StartingVertex: Vertex = None):
     """
     Return 1 if graph is bipartite else return 0
