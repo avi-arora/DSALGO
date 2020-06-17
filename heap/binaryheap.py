@@ -12,26 +12,34 @@ class MaxHeap:
         return index / 2
 
     def leftChild(self, index):
-        """
-        """
-        return (2 * index) + 1
+        lc = None
+        if self.size > 1:
+            lc = (2 * index) + 1
+        return lc if lc < self.size else None
 
     def rightChild(self, index):
-        """
-        """
-        return (2 * index) + 2
+        rc = None
+        if self.size > 2:
+            rc = (2 * index) + 2
+        return rc if rc < self.size else None
 
     def maxChild(self, index):
-        """
-        returns index of maximum child of a node at index
-        to access child 
-
-        """
         leftC, rightC = self.leftChild(index), self.rightChild(index)
-        if self.heap[leftC] > self.heap[rightC]:
-            return leftC
+        max_child = None
+
+        if not leftC and not rightC:
+            return None
+
+        if leftC == None: 
+            max_child = rightC 
+        elif rightC == None:
+            max_child = leftC
+        elif self.heap[leftC] > self.heap[rightC]:
+            max_child = leftC
         else:
-            return rightC
+            max_child = rightC
+        
+        return max_child
 
     def isLeaf(self, index):
         return self.leftChild(index) > self.size \
@@ -56,22 +64,22 @@ class MaxHeap:
     def percolateUp(self, index):
         while index // 2 > 0:
             #if node is greater than it's parent
-            if self.heap[index] > self.heap[index//2]:
+            if self.heap[index-1] > self.heap[(index//2)-1]:
                 #swap
-                temp = self.heap[index]
-                self.heap[index] = self.heap[index//2]
-                self.heap[index//2] = temp
+                temp = self.heap[index-1]
+                self.heap[index-1] = self.heap[(index//2)-1]
+                self.heap[(index//2)-1] = temp
             index = index // 2
     
     def percolateDown(self, index):
-        while index < self.size // 2:
-            max_child = self.maxChild(0)
-            if self.heap[max_child] > self.heap[index]:
+        while (2 * index) < self.size:
+            max_child = self.maxChild(index)
+            if max_child and self.heap[max_child] > self.heap[index]:
                 #swap
                 temp = self.heap[index]
                 self.heap[index] = self.heap[max_child]
                 self.heap[max_child] = temp
-            index -= 1
+            index = max_child
 
 
     def insert(self, element):
@@ -89,14 +97,23 @@ class MaxHeap:
         max_elem = self.heap[0]
         if self.size > 1:
             self.heap[0] = self.heap[self.size-1]
+            self.heap.pop()
+            self.size -= 1
             self.percolateDown(0)
         else:
             self.heap.pop()
+            self.size -= 1
 
         return max_elem
     
     def sort(self):
         pass
+
+    def changePriority(self, position, priority):
+        pass
+
+    def print(self):
+        print(self.heap)
 
 
 class MinHeap:
@@ -109,20 +126,36 @@ class MinHeap:
         return index/2
 
     def leftChild(self, index):
-        return (2 * index) + 1
+        lc = None
+        
+        if self.size > 1:
+            lc = (2 * index) + 1
+        return lc if lc < self.size else None
 
     def rightChild(self, index):
-        """
-        if array are not 0 indexed based then 2i+1 is exact position of index
-        """
-        return (2 * index) + 2
+        rc = None
+
+        if self.size > 2:
+            rc = (2 * index) + 2
+        return rc if rc < self.size else None
 
     def minChild(self, index):
         leftC, rightC = self.leftChild(index), self.rightChild(index)
-        if self.heap[leftC] < self.heap[rightC]:
-            return leftC
+        min_child = None
+
+        if not leftC and not rightC:
+            return None
+        
+        if not leftC:
+            min_child = rightC
+        elif not rightC:
+            min_child = leftC
+        elif self.heap[leftC] < self.heap[rightC]:
+            min_child = leftC
         else:
-            return rightC
+            min_child = rightC
+        
+        return min_child
 
     def isLeaf(self, index):
         return self.leftChild(index) > self.size \
@@ -141,24 +174,24 @@ class MinHeap:
 
     def percolateUp(self, index):
         while index // 2 > 0:
-            if self.heap[index] < self.heap[index//2]:
-                self.heap[index], self.heap[index//2] = self.heap[index//2], self.heap[index]
+            if self.heap[index-1] < self.heap[(index//2)-1]:
+                self.heap[index-1], self.heap[(index//2)-1] = self.heap[(index//2)-1], self.heap[index-1]
             index = index // 2
 
     def percolateDown(self,index):
-        while index < self.size // 2:
+        while (2 * index) <= self.size:
             min_child = self.minChild(index)
-            if self.heap[min_child] < self.heap[index]:
+            if min_child and self.heap[min_child] < self.heap[index]:
                 #swap 
                 temp = self.heap[index]
                 self.heap[index] = self.heap[min_child]
                 self.heap[min_child] = temp
-            index -= 1
+            index = min_child
 
     def insert(self, element):
         self.heap.append(element)
         self.size = self.size+1
-        self.percolateUp(self.size-1)
+        self.percolateUp(self.size)
 
     def getMin(self):
         return self.heap[0]
@@ -170,12 +203,33 @@ class MinHeap:
         min_elem = self.heap[0]
         if self.size > 1:
             self.heap[0] = self.heap[self.size-1]
+            self.heap.pop()
+            self.size -= 1
             self.percolateDown(0)
         else:
             self.heap.pop()
+            self.size -= 1
 
         return min_elem
 
     def Sort(self):
         pass
+
+    def changePriority(self, position, priority):
+        pass
+
+    def print(self):
+        print(self.heap)
+
+
+if __name__ == "__main__":
+    h = MinHeap()
+    h.insert(5)
+    h.insert(4)
+    h.insert(3)
+    h.insert(2)
+    h.insert(1)
+    h.print()
+    print(h.extractMin())
+    h.print()
 
