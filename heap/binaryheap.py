@@ -115,6 +115,42 @@ class MaxHeap:
     def print(self):
         print(self.heap)
 
+    def buildHeap(self, ary):
+        """
+        build an heap from array
+    TimeComplexity: O(n) better than O(nlogn) due to leaf already sorted property. 
+        """
+        #find parent of first node
+        parent = len(ary) // 2
+        self.size = len(ary)
+        self.heap = [] + ary
+
+        #iterate till root node
+        while parent >= 0:
+            self.percolateDown(parent)
+            parent -= 1
+
+    def increaseKey(self, index, val):
+        #validate
+        assert self.heap[index] < val, "value should be greater than current element!"
+
+        while index >= 1:
+            if self.heap[index] < self.heap[index//2]:
+                self.heap[index], self.heap[index//2] = self.heap[index//2], self.heap[index]
+            index = index//2
+        
+
+    def decreaseKey(self, index, val):
+        #validate 
+        assert self.heap[index] > val, "value should be less than of current element!"
+
+        self.heap[index] = val
+        while (2 * index) < self.size:
+            mxc = self.maxChild(index)
+            
+            if self.heap[mxc] > self.heap[index]:
+                self.heap[mxc], self.heap[index] = self.heap[index], self.heap[mxc]
+            index = mxc
 
 class MinHeap:
     
@@ -158,8 +194,9 @@ class MinHeap:
         return min_child
 
     def isLeaf(self, index):
-        return self.leftChild(index) > self.size \
-            and self.rightChild(index) > self.size
+        lc, rc = self.leftChild(index), self.rightChild(index)
+        return (not lc and not rc) or \
+            (lc > self.size and rc > self.size)
 
     def correctionUp(self):
         index = self.size // 2
@@ -179,6 +216,8 @@ class MinHeap:
             index = index // 2
 
     def percolateDown(self,index):
+        if self.isLeaf(index):
+            return
         while (2 * index) <= self.size:
             min_child = self.minChild(index)
             if min_child and self.heap[min_child] < self.heap[index]:
@@ -221,15 +260,54 @@ class MinHeap:
     def print(self):
         print(self.heap)
 
+    def buildHeap(self, ary):
+        """
+        Build an heap from array, 
+        TimeComplexity: O(n)
+        """
+        #find parent of non-leaf node
+        parent = len(ary) // 2
+        self.heap = [] + ary
+        self.size = len(ary)
 
+        while parent >= 0:
+            self.percolateDown(parent)
+            parent -= 1
+        
+        return self.heap
+
+    def increaseKey(self, index, val):
+        #validate 
+        assert self.heap[index] > val , "value should be less than the current element!"
+        self.heap[index] = val
+        while index >= 1:
+
+            if self.heap[index] < self.heap[index//2]:
+                #swap
+                self.heap[index], self.heap[index//2] = self.heap[index//2], self.heap[index]
+
+            index = index // 2        
+
+    def decreaseKey(self, index, val):
+        #validate
+        assert self.heap[index] < val, "value should be greater than the current element!"
+
+        self.heap[index] = val
+        while (2 * index) < self.size:
+
+            mc = self.minChild(index)
+            if self.heap[mc] < self.heap[index]:
+                self.heap[mc], self.heap[index] = self.heap[index], self.heap[mc]
+            
+            index = mc
+        
+            
+
+        
 if __name__ == "__main__":
     h = MinHeap()
-    h.insert(5)
-    h.insert(4)
-    h.insert(3)
-    h.insert(2)
-    h.insert(1)
+    a = [5,4,3,2,1]
+    h.buildHeap(a)
     h.print()
-    print(h.extractMin())
+    h.decreaseKey(0, 10)
     h.print()
-
