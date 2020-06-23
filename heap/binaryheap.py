@@ -110,7 +110,13 @@ class MaxHeap:
         pass
 
     def changePriority(self, position, priority):
-        pass
+        assert self.size < position, "Position cannot exceed size"
+        assert self.heap[position] != priority, "Priority cannot be same"
+
+        if priority > self.heap[position]:
+            self.increaseKey(position, priority)
+        else:
+            self.decreaseKey(position, priority)
 
     def print(self):
         print(self.heap)
@@ -118,7 +124,7 @@ class MaxHeap:
     def buildHeap(self, ary):
         """
         build an heap from array
-    TimeComplexity: O(n) better than O(nlogn) due to leaf already sorted property. 
+        TimeComplexity: O(n) better than O(nlogn) due to leaf already sorted property. 
         """
         #find parent of first node
         parent = len(ary) // 2
@@ -255,7 +261,14 @@ class MinHeap:
         pass
 
     def changePriority(self, position, priority):
-        pass
+        assert self.size < position, "Position cannot be greater than size"
+        assert self.heap[position] != priority, "Priority cannot be same"
+
+        if priority < self.heap[position]:
+            self.increaseKey(position, priority)
+        else:
+            self.decreaseKey(position, priority)
+
 
     def print(self):
         print(self.heap)

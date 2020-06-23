@@ -8,20 +8,36 @@ class Vertex:
 
         """
         self.label, self.visited = label, False
-        self.neighbors, self.weight = {}, -1
+        self.neighbors, self.distance = {}, -1
+        self.previous = None
+
+    def __str__(self):
+        return "VertexXX"
+
+    def __repr__(self):
+        return self.getVertexLabel() + "(" + str(id(self)) + ")"
     
     def getVertexLabel(self):
         return self.label
 
-    def getWeight(self):
-        return self.weight
-    def setWeight(self, weight):
-        self.weight = weight
+    def getDistance(self):
+        return self.distance
+    def setDistance(self, distance):
+        self.distance = distance
+
+    def setPrevious(self, label):
+        self.previous = label
+
+    def getPrevious(self):
+        return self.previous
 
     def getConnections(self):
-        return self.neighbors.keys()
+        return self.neighbors
     
-    def visited(self):
+    def isVisited(self):
+        return self.visited
+    
+    def visit(self):
         self.visited = True
     
     def addNeighbor(self, neighbor,weight=0):
@@ -34,6 +50,15 @@ class Vertex:
 class Graph:
     def __init__(self):
         self.graph = {}
+
+    #to make graph obj scriptable 
+    def __getitem__(self, label):
+        return self.graph[label]
+
+    def __str__(self):
+        return "GraphNODE"
+    def __repr__(self):
+        return "NDE"
 
     def getVertices(self):
         return self.graph.keys()
@@ -68,7 +93,8 @@ class Graph:
 
     def printGraph(self):
         for v in self.getVertices():
-            print(v)
+            print(f"{v}, Dist:", end=" ")
+            print(self.graph[v].getDistance())
             print(self.graph[v].getConnections())        
 
 #driver program
