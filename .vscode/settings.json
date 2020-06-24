@@ -2,5 +2,6 @@
     "cSpell.ignoreWords": [
         "heapify",
         "heapq"
-    ]
+    ],
+    "python.pythonPath": "C:\\Users\\avishek.arora\\AppData\\Local\\Programs\\Python\\Python38-32\\python.exe"
 }

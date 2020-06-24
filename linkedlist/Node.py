@@ -1,8 +1,8 @@
 
 class SingleNode: 
     
-    def __init__(self):
-        self.data, self.next = None, None
+    def __init__(self,elem=None):
+        self.data, self.next = elem, None
 
     
     def setData(self, val):
