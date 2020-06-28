@@ -1,6 +1,7 @@
 from SinglyLinkedList import SinglyLinkedList
 from Node import SingleNode
 
+
 def reverseSublistNaive(list: SinglyLinkedList, start, end):
     """
     Algorithm: Create a new list for the sublist in reverse order,
@@ -19,19 +20,19 @@ def reverseSublistNaive(list: SinglyLinkedList, start, end):
 
     head = prev if prev else list
 
-    while counter <= end and curr: 
+    while counter <= end and curr:
         result.insertFront(curr.getData())
         prev, curr = curr, curr.getNext()
         counter += 1
-    
 
-    if start == 1: 
+    if start == 1:
         return result
     else:
         head.setNext(result)
         result.getTail().setNext(curr)
 
     return list
+
 
 def reverseSublistNaiveImproved(head: SingleNode, start, end):
     assert end > start, "End should be greater than start"
@@ -49,36 +50,43 @@ def reverseSublistUsingStack(list: SinglyLinkedList, start, end):
     while counter <= end and curr:
         stack.append(curr.getData())
         curr, counter = curr.getNext(), counter+1
-    
+
     curr, counter = prev.getNext() if prev else list, start
     while counter <= end and curr and stack:
         curr.setData(stack.pop())
         curr, counter = curr.getNext(), counter+1
-    
+
     return list
+
 
 def reverseSublistImproved(list: SinglyLinkedList, start, end):
     assert end > start, "End should be greater than start"
     prev, curr, temp = None, list, list
-    counter = 1
+    counter, subListHead = 1, None
 
-    #iterate till position
+    #traverse till position 
     while counter < start and curr:
         prev, curr = curr, curr.getNext()
         counter += 1
-
-    start = prev if prev else list 
-    while counter <= end and temp.getNext():
+    
+    subListHead = prev if prev else list
+    #position obtained start reversing
+    while counter <= end and temp:
         temp = curr.getNext()
         curr.setNext(prev)
         prev, curr = curr, temp
         counter += 1
-    
-    #handle case if range is from (start to end)
-    #list is reversed now fix the references 
-    start.getNext().setNext(curr)
-    start.setNext(prev)
-    
+
+    #reversal successful 
+    #this indicate the reversal is starting from beganning 
+    if not subListHead.getNext() and not curr:
+        list = SinglyLinkedList(prev)
+    elif not subListHead.getNext():
+        subListHead.setNext(curr)
+        list = SinglyLinkedList(prev)
+    else:
+        subListHead.getNext().setNext(curr)
+        subListHead.setNext(prev)
 
     return list
 
@@ -86,7 +94,6 @@ def reverseSublistImproved(list: SinglyLinkedList, start, end):
 def reverseRecursive(list: SinglyLinkedList, start, end):
     assert end > start, "End should be greater than start"
     pass
-
 
 
 if __name__ == "__main__":
@@ -104,8 +111,6 @@ if __name__ == "__main__":
 
     l.print()
 
-    result = reverseSublistImproved(l, 1,9)
+    result = reverseSublistImproved(l, 1, 7)
 
     result.print()
-
-
