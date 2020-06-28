@@ -35,6 +35,10 @@ def reverseUsingStack(list: SinglyLinkedList):
     return list
 
 def reverseImproved(list: SinglyLinkedList):
+    """
+    TC: O(n)
+    SC: O(1)
+    """
     temp, prev, current = list.getNext(), list, list.getNext()
     while current:
         temp = temp.getNext()
@@ -46,6 +50,10 @@ def reverseImproved(list: SinglyLinkedList):
          
 
 def reverseRecursive(head, current, prev):
+    """
+    TC: O(n)
+    SC: O(n)
+    """
     if not current.getNext():
         current.setNext(prev)
         return current
@@ -54,6 +62,7 @@ def reverseRecursive(head, current, prev):
         current.setNext(prev)
         if prev == head:
             prev.setNext(None)
+            return SinglyLinkedList(newHead)
         return newHead
 
 
@@ -69,10 +78,6 @@ if __name__ == "__main__":
     list.insertAtLast(5)
 
     list.print()
-    node = reverseRecursive(list, list.getNext(), list)
-    temp = node
-    while temp:
-        print(temp.getData(), end=" ")
-        temp = temp.getNext()
-
+    rev = reverseRecursive(list, list.getNext(), list)
+    rev.print()
     

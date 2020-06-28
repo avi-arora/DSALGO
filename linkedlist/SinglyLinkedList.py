@@ -18,6 +18,12 @@ class SinglyLinkedList:
     def setNext(self, ptr):
         self.head.setNext(ptr)
     
+    def getHead(self):
+        return self.head
+    
+    def getTail(self):
+        return self.tail
+    
     def print(self):
         print("<<SinglyLinkedList>>")
         temp = self.head
@@ -41,8 +47,13 @@ class SinglyLinkedList:
                 temp = temp.getNext()
             temp.setNext(node)
 
-    def insertHead(self,elem):
-        pass
+    def insertFront(self,elem):
+        node = SingleNode(elem)
+        if not self.head and not self.tail:
+            self.head = self.tail = node
+        else:
+            node.setNext(self.head)
+            self.head = node
 
     def insertTail(self, elem):
         node = SingleNode(elem)
