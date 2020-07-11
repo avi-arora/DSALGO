@@ -23,6 +23,14 @@ def brute_force(data, l):
         return "YES"
     else:
         return "NO"
+
+
+def improved(data, l):
+    if data[0] < data[l-1]: 
+        return "YES"
+    else:
+        return "NO"
+
         
 
 
@@ -35,4 +43,4 @@ if __name__ == "__main__":
     for _ in range(t):
         l = int(input())
         data = [int(d) for d in input("").split(" ")]
-        print(brute_force(data,l))
+        print(improved(data, l))
