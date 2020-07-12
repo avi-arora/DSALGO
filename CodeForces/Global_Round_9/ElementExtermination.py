@@ -31,6 +31,10 @@ def improved(data, l):
     else:
         return "NO"
 
+
+def reduceUsingImproved(data, l):
+    pass
+
         
 
 
