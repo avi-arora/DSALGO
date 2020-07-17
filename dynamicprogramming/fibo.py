@@ -41,9 +41,39 @@ def fibDPBottomUp(n):
     return memory[n]
 
 
+def fibUsingMatrixMultiply(n):
+    """
+    Computes nth fibonacii number using matrix multiplication
+    Algorithm:
+    let M = [[1,1],[1,0]]
+    Soln: Pow(M,n-1) then f[0][0] is the n+1 fibonacii number
+    Reasoning:
+    | fn+1 fn   |
+    | fn   fn-1 |
+
+    TC: O(n)
+    SC: O(1)
+    """ 
+
+    fibMatrix = [[1,1],[1,0]]
+    def multiply(matrix):
+        a = matrix[0][0] * fibMatrix[0][0] + matrix[0][1] * fibMatrix[1][0]
+        b = matrix[0][0] * fibMatrix[0][1] + matrix[0][1] * fibMatrix[1][1]
+        c = matrix[1][0] * fibMatrix[0][0] + matrix[1][1] * fibMatrix[1][0]
+        d = matrix[1][0] * fibMatrix[0][1] + matrix[1][1] * fibMatrix[1][1]
+        return [[a,b],[c,d]]
+    
+    matrix = [[1,1],[1,0]]
+    for _ in range(2,n):
+        matrix = multiply(matrix)
+
+    return matrix[0][0]
+
+
 
 if __name__ == "__main__":
     print(fibRecursive(5))
     print(fibIterative(5))
     print(fibDPBottomUp(5))
     print(fibDPTopDown(5,[0,1]))
+    print(fibUsingMatrixMultiply(7))

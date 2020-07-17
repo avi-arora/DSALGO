@@ -74,5 +74,6 @@ def factorialIterative(n):
     return result
 
 
+
 if __name__ == "__main__":
     print(CountFactorialDigits(10))
